@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+
+<!--配置shiro的filter  -->
+
+<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+   <property name="securityManager" ref="securityManager"></property>
+  
+   <property name="unauthorizedUrl" value="login.jsp"></property>
+   <property name="filterChainDefinitions">
+     <value>
+     	 <!-- 可匿名访问路径，例如：验证码、登录连接、退出连接等 -->
+     	 /logout = anon
+     	 /toLogin = anon
+         /login = anon
+         /** = authc
+
+	</value>
+     
+   </property>
+</bean>
+
+
+<!-- 配置SercuityManager -->
+<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+ <property name="realm" ref="cusTomerRealm"></property> 
+</bean>
+
+
+<!-- 配置自定义realm -->
+<bean id="cusTomerRealm" class="com.shop.realm.CustomerRealm"></bean>
+
+</beans>
